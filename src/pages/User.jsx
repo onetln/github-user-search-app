@@ -2,14 +2,16 @@ import { Fragment, useContext, useEffect } from "react"
 import { FaCode, FaStore, FaUserFriends, FaUsers } from "react-icons/fa"
 import { Link, useParams } from "react-router-dom"
 import Spinner from "../components/layout/Spinner"
+import RepoList from "../components/repos/RepoList"
 import GithubContext from "../context/githubcontext/GithubContext"
 
 function User() {
-    const { user, getUser, loading } = useContext(GithubContext)
+    const { user, getUser, loading, getUserRepos, repos } = useContext(GithubContext)
     const params = useParams()
 
     useEffect(() => {
         getUser(params.login)
+        getUserRepos(params.login)
     }, [])
 
     const {
@@ -48,7 +50,7 @@ function User() {
                         <div className='card-body justify-end'>
                             <h2 className='card-title text-white'>{name}</h2>
                             <div> 
-                                <p>{login}</p>{/*<span className="text-white badge badge-md">{login}</span> */}
+                                <p>{login}</p>
                             </div>
                         </div>
                     </div>
@@ -154,6 +156,8 @@ function User() {
                     </div>
                 </div>
             </div>
+
+            <RepoList repos={repos}/>
         </div>
     </Fragment>
    )
