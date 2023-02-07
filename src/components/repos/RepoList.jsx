@@ -2,8 +2,8 @@ import PropType from 'prop-types'
 import RepoItem from './RepoItem';
 
 function RepoList({ repos }) {
-    console.log(repos);
-  return (
+
+    return (
     <div className='card my-5 rounded-lg shadow-lg card bg-base-200'>
         <div className='card-body'>
             <h2 className='text-3xl my-4 font-bold card-title'>

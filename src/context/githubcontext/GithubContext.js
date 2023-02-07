@@ -9,32 +9,42 @@ const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 export const GithubProvider = (props) => {
   const initialState = {
     users: [],
+    currentPage: 1,
+    totalUsers: 0,
     user: {},
     repos: [],
     loading: false,
+    searchText: null,
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
-  const p = 10;
-  const searchUsers = async (text) => {
+
+  //Get users
+  const searchUsers = async (text, page) => {
     setLoading();
 
     const params = new URLSearchParams({
       q: text,
-      per_page: p,
+      per_page: 16,
+      page: page,
     });
     const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     });
-    const { items } = await response.json();
+
+    const data = await response.json();
+    data['customParam_page'] = page;
+    data['customParam_text'] = text;
+
     dispatch({
       type: 'GET_USERS',
-      payload: items,
+      payload: data,
     });
   };
 
+  //Get user data
   const getUser = async (login) => {
     setLoading();
     const response = await fetch(`${GITHUB_URL}/users/${login}`, {
@@ -50,6 +60,7 @@ export const GithubProvider = (props) => {
     });
   };
 
+  //Get user repositories
   const getUserRepos = async (login) => {
     setLoading();
 
@@ -57,6 +68,7 @@ export const GithubProvider = (props) => {
       sort: 'updated',
       direction: 'desc',
       per_page: 10,
+      page: state.currentPage,
     });
 
     const response = await fetch(
@@ -75,6 +87,7 @@ export const GithubProvider = (props) => {
     });
   };
 
+  //Clear search
   const clearUsers = () => dispatch({ type: 'CLEAR_USERS' });
 
   // Initial users for testing purposes
@@ -94,15 +107,19 @@ export const GithubProvider = (props) => {
     });
   };
 
+  //Display loading
   const setLoading = () => dispatch({ type: 'SET_LOADING' });
 
   return (
     <GithubContext.Provider
       value={{
         users: state.users,
+        currentPage: state.currentPage,
+        totalUsers: state.totalUsers,
         loading: state.loading,
         user: state.user,
         repos: state.repos,
+        searchText: state.searchText,
         fetchUsers,
         searchUsers,
         getUser,
