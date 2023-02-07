@@ -5,8 +5,8 @@ import Alert from "../layout/Alert"
 
 function UserSearch() {
   const [text, setText] = useState('')
-  const {users, searchUsers, clearUsers } = useContext(GithubContext)
-  const {setAlert} = useContext(AlertContext)
+  const { users, searchUsers, clearUsers, } = useContext(GithubContext)
+  const { setAlert } = useContext(AlertContext)
 
   const handleChange = (e) => {
     setText(e.target.value)
@@ -17,7 +17,7 @@ function UserSearch() {
     if (text === '') {
       setAlert('Please enter a value', 'error')
     } else {
-      searchUsers(text)
+      searchUsers(text, 1)
       setText('')
     }
 
