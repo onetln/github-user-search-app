@@ -3,16 +3,20 @@ import GithubContext from '../../context/githubcontext/GithubContext'
 import Pagination from '../layout/Pagination'
 import Spinner from '../layout/Spinner'
 import UserItem from './UserItem'
+import { searchUsers } from '../../context/githubcontext/GithubActions'
 
 function UserResults() {
-    const { users, loading, totalUsers, currentPage, searchUsers, searchText } = useContext(GithubContext)
+    const { users, loading, totalUsers, currentPage, searchText, dispatch } = useContext(GithubContext)
 
-    const handleChange = (increase) => {
-        if (increase) {
-            searchUsers(searchText, currentPage + 1)
-        } else {
-            searchUsers(searchText, currentPage - 1)
-        }
+    const handleChange = async (increase) => {
+        dispatch({ type: 'SET_LOADING' })
+        const page = increase ? currentPage + 1 : currentPage - 1
+        const text = searchText
+        const data = await searchUsers(text, page)
+        dispatch({
+            type: 'GET_USERS',
+            payload: { data, page, text },
+          });
     }
 
     if (!loading) {

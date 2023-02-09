@@ -1,4 +1,3 @@
-import { BiArrowToRight } from 'react-icons/bi';
 import { FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft } from 'react-icons/fa'
 function Pagination({ itemsPerPage, totalItems, currentPage, handleChange }) {
 

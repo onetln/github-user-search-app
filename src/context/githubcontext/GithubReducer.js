@@ -3,10 +3,10 @@ const githubReducer = (state, action) => {
     case 'GET_USERS':
       return {
         ...state,
-        users: action.payload.items,
-        totalUsers: action.payload.total_count,
-        currentPage: action.payload.customParam_page,
-        searchText: action.payload.customParam_text,
+        users: action.payload.data.items,
+        totalUsers: action.payload.data.total_count,
+        currentPage: action.payload.page,
+        searchText: action.payload.text,
         loading: false,
       };
     case 'GET_USER':

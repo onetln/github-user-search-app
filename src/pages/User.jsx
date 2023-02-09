@@ -4,15 +4,24 @@ import { Link, useParams } from "react-router-dom"
 import Spinner from "../components/layout/Spinner"
 import RepoList from "../components/repos/RepoList"
 import GithubContext from "../context/githubcontext/GithubContext"
+import { getUser, getUserRepos } from "../context/githubcontext/GithubActions"
 
 function User() {
-    const { user, getUser, loading, getUserRepos, repos } = useContext(GithubContext)
+    const { user, loading, repos, dispatch } = useContext(GithubContext)
     const params = useParams()
 
     useEffect(() => {
-        getUser(params.login)
-        getUserRepos(params.login)
-    }, [])
+        dispatch({type: 'SET_LOADING'})
+        const getUserData = async () => {  
+
+            const userData = await getUser(params.login)
+            dispatch({type: 'GET_USER', payload: userData})
+
+            const userDataRepos = await getUserRepos(params.login)
+            dispatch({type: 'GET_USER_REPOS', payload: userDataRepos})
+        }
+        getUserData()
+    }, [dispatch, params.login])
 
     const {
         avatar_url,
@@ -45,7 +54,7 @@ function User() {
                 <div className="custom-card-image">
                     <div className='rounded-lg shadow-xl card image-full'>
                         <figure>
-                            <img src={avatar_url} alt='Profile image' />
+                            <img src={avatar_url} alt='Profile' />
                         </figure>
                         <div className='card-body justify-end'>
                             <h2 className='card-title text-white'>{name}</h2>
