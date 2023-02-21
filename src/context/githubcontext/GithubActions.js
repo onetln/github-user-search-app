@@ -26,9 +26,13 @@ export const getUserAndRepos = async (login) => {
     direction: 'desc',
     per_page: 10,
   });
-  const [user, repos] = await Promise.all([
-    github.get(`/users/${login}`),
-    github.get(`/users/${login}/repos?/${params}`),
-  ]);
-  return { user: user.data, repos: repos.data };
+  try {
+    const [user, repos] = await Promise.all([
+      github.get(`/users/${login}`),
+      github.get(`/users/${login}/repos?/${params}`),
+    ]);
+    return { user: user.data, repos: repos.data };
+  } catch (err) {
+    window.location = '/notfound';
+  }
 };
