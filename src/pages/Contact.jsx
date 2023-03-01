@@ -36,7 +36,6 @@ function Contact() {
   const submitForm = async (e) => {
     emailJs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, USER_ID).then(
       (result) => {
-        console.log(result.text);
         setIsOpen(true);
         reset();
       },
