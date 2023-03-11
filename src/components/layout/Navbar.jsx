@@ -35,7 +35,7 @@ function Navbar({ title }) {
 
             {/* Small screen */}
             <div className="2xl:hidden xl:hidden lg:hidden md:hidden sm:block">
-              <Link to="/" className="btn btn-ghost btn-sm btn-circle mx-1">
+              <Link to="/" className="btn btn-ghost btn-sm btn-circle">
                 <HiHome className="text-sm" />
               </Link>
               <Link to="/about" className="btn btn-ghost btn-sm btn-circle">

@@ -6,3 +6,12 @@
     border-radius: 0.5rem;
     opacity: 0.40;
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .custom-recaptcha {
+        transform:scale(0.77);
+        -webkit-transform:scale(0.77);
+        transform-origin:0 0;
+        -webkit-transform-origin:0 0;
+    }
+  }

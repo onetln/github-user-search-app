@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AnimatePresence, motion } from 'framer-motion';
 import { yupResolver } from '@hookform/resolvers/yup';
+import ReCAPTCHA from 'react-google-recaptcha';
 import * as yup from 'yup';
 import emailJs from 'emailjs-com';
 import Modal from '../components/layout/Modal';
@@ -9,6 +10,7 @@ import Modal from '../components/layout/Modal';
 const SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
 const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
 const USER_ID = process.env.REACT_APP_EMAILJS_USER_ID;
+const SITE_KEY = process.env.REACT_APP_SITE_KEY;
 
 const schema = yup
   .object({
@@ -29,6 +31,7 @@ function Contact() {
   });
 
   const [isOpen, setIsOpen] = useState(false);
+  const [recaptchaWarning, setRecaptchaWarning] = useState(false);
   const handleToggle = () => setIsOpen((prev) => !prev);
 
   const form = useRef();
@@ -40,9 +43,13 @@ function Contact() {
         reset();
       },
       (error) => {
-        console.log(error.text);
+        error.status === 400 && setRecaptchaWarning(true);
       }
     );
+  };
+
+  const handleChange = (value) => {
+    setRecaptchaWarning(false);
   };
 
   return (
@@ -120,6 +127,14 @@ function Contact() {
                           {errors.message && errors.message.message}
                         </p>
                       </div>
+                      <div className="custom-recaptcha">
+                        <ReCAPTCHA sitekey={SITE_KEY} onChange={handleChange} />
+                      </div>
+                      {recaptchaWarning && (
+                        <p className="text-red-700 m-1">
+                          Please input reCAPTCHA
+                        </p>
+                      )}
                       <div className="card-actions mt-4">
                         <button className="btn btn-outline">
                           Send a massage
