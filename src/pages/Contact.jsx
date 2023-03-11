@@ -35,11 +35,13 @@ function Contact() {
   const handleToggle = () => setIsOpen((prev) => !prev);
 
   const form = useRef();
+  const captcha = useRef(null);
 
   const submitForm = async (e) => {
     emailJs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, USER_ID).then(
       (result) => {
         setIsOpen(true);
+        captcha.current.reset();
         reset();
       },
       (error) => {
@@ -128,7 +130,11 @@ function Contact() {
                         </p>
                       </div>
                       <div className="custom-recaptcha">
-                        <ReCAPTCHA sitekey={SITE_KEY} onChange={handleChange} />
+                        <ReCAPTCHA
+                          ref={captcha}
+                          sitekey={SITE_KEY}
+                          onChange={handleChange}
+                        />
                       </div>
                       {recaptchaWarning && (
                         <p className="text-red-700 m-1">
