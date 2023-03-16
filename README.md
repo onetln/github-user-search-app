@@ -1,3 +1,14 @@
+# Go live!
+[github-user-search-app](https://640cc9a21128f700087c21cc--incredible-salamander-c151b7.netlify.app/)
+
+# About the project
+
+The project is based on [Brad Traversy's tutorial](https://github.com/bradtraversy/github-finder-app), to which I added some new features, such as:
+- Contact form through which you can contact me.
+- Google recaptcha v2 in contact form.
+- Paginated API - in my application the API results are limited, it provides up to 16 search results at once. You can request additional results by going further.
+- Change theme - you can choose from 3 available themes. Your browser will remember the last selected theme.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
