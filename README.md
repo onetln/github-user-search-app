@@ -1,5 +1,5 @@
 # Go live!
-[github-user-search-app](https://640cc9a21128f700087c21cc--incredible-salamander-c151b7.netlify.app/)
+[github-user-search-app](https://incredible-salamander-c151b7.netlify.app/)
 
 # About the project
 
